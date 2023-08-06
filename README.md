@@ -1,4 +1,4 @@
-# BurisesHaxBall
+# Wixent HaxBall
 
 Wixent HaxBall server
 
