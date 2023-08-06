@@ -10,7 +10,7 @@ const maxPlayers = 30;
 const roomPublic = true;
 const geo = [{"code": "CL", "lat": -35.6, "lon": -71.5}];
 
-const room = HBInit({ roomName: roomName, maxPlayers: maxPlayers, public: roomPublic, playerName: botName, geo: geo[0] });
+const room = HBInit({ token: roomArgs['token'], roomName: roomName, maxPlayers: maxPlayers, public: roomPublic, playerName: botName, geo: geo[0] });
 
 const scoreLimitClassic = 2;
 const scoreLimitBig = 2;
@@ -18,9 +18,6 @@ const timeLimitClassic = 2;
 const timeLimitBig = 2;
 
 room.setTeamsLock(true);
-
-var adminPassword = "adminhost";
-console.log("adminPassword : " + adminPassword);
 
 /* STADIUM */
 
@@ -906,7 +903,7 @@ room.onPlayerChat = function (player, message) {
 		room.sendChat("Discord de la Asociacion Chilena de Futsal: " + "https://discord.gg/JzCH2BnGHn")
 	}
 	else if (["!claim"].includes(message[0].toLowerCase())) {
-		if (message[1] == adminPassword) {
+		if (message[1] == roomArgs['adminPassword']) {
 			room.setPlayerAdmin(player.id, true);
 			var stats;
 			localStorage.getItem(getAuth(player)) ? stats = JSON.parse(localStorage.getItem(getAuth(player))) : stats = [0, 0, 0, 0, "0.00", 0, 0, 0, 0, "0.00", "player", player.name];
