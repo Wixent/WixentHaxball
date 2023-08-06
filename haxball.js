@@ -4,7 +4,7 @@
 
 /* ROOM */
 
-const roomName = "[ACF] x4";
+const roomName = "⭐ ACF | 4v4 ⭐";
 const botName = "Árbitro del Bajo";
 const maxPlayers = 30;
 const roomPublic = true;
