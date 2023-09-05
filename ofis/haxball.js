@@ -58,6 +58,14 @@
 //				0.3 Se añadió el comando !sancion, el cual tiene los parametros <jugador> <equipo> <razon>
 //					0.1: Se estableció una webhook para que envie la sanción correspondiente al discord de ACF
 //					0.2: El comando solo puede ser ejecutado por personas con permisos de administrador.
+//			0.3 04-09-23:
+//				0.1 Se ajustó el comando !sanción.
+//					0.1 Ahora la razón de una sanción (último parámetro) puede llevar espacios.
+// 				0.2 Se ajustaron las webhooks de firmas:
+//					0.1 Se enviará un embed al canal firmas-bot con solamente el nombre del jugador para tener un registro que firmó.
+//					0.2 Se creó una webhook privada la cual se enviara a un canal del staff con datos más privados sobre la firma, en este caso la ID y el auth.
+//				0.3 Se añadió una webhook para avisar sobre el cambio de contraseña en el discord.
+//
 //
 // ------------------------------------------------
 // https://www.haxball.com/headless
@@ -71,13 +79,12 @@ var roomPublic = true; // room publico: dejar true, room oculto: dejar false.
 var room = HBInit({
 	roomName: roomName,
 	maxPlayers: maxPlayers,
+	token: roomArgs['token'],
 	public: roomPublic,
     roomPassword: password,
-    token: roomArgs['token'],
 	geo: { "code": "CL", "lat": -33.448907, "lon": -70.66926 },
 	noPlayer: true
 });
-
 
 // Estadios
 
@@ -197,8 +204,10 @@ const camisetasTodas = [
     {id: "cc", nombre: "Colo Colo", uniform: [{ angle: 40, mainColor: [0xFFFFFF, 0xEDEDED, 0xFDF7FF], avatarColor: 0x000000 }, { angle: 30, mainColor: [0xF2F2F2, 0xEDEDED, 0xE8E8E8], avatarColor: 0x050326 }, {angle: 60, mainColor: [0x0800FF, 0x0800FF, 0x000000], avatarColor: 0xFFFFFF}]}
  ]
 
+var discordWebhookNewPassword = 'https://discord.com/api/webhooks/1148267046757478451/Ibjv0OdTvei8etPA0Q_T2vNXwydLhha0RtFKlui8zoOpA66A2xIB_bb9TOpZzh4lm482'
 var discordWebhookSanciones = 'https://discord.com/api/webhooks/1148052194369736816/sv4Doqe4vHRukeUesPoDRsfgOxdmntw5CNtS48j3BnDzSiTWfZQ0QGsnNORBlfVLmCkn'
-var discordWebhookFirmas = 'https://discord.com/api/webhooks/1146958562011140226/ksSlsv9BQ6Ge-fQj2U8LZioUytPn-q942kj-DOHNx5XTIhr4YQADr1Kwn9xzW6urY8CC'
+var discordWebhookFirmasPublicas = 'https://discord.com/api/webhooks/1146958562011140226/ksSlsv9BQ6Ge-fQj2U8LZioUytPn-q942kj-DOHNx5XTIhr4YQADr1Kwn9xzW6urY8CC'
+var discordWebhookFirmasPrivadas = 'https://discord.com/api/webhooks/1148260007582912542/qA8myB-SyaR-kswbVw5zYxND83TRilqErrqmbpWVBowkuca1DqabKTaV4qqWEQRz-lug'
 var gameWebhook = ['https://discord.com/api/webhooks/1146961695869251694/k-J8d-DdloPJHtILz7sAnqkzSGNlkJFBs6v3mNGDcFP7ZRwdKWpvkCNDfko6bp2zwk2a', 'https://discord.com/api/webhooks/1146961695869251694/k-J8d-DdloPJHtILz7sAnqkzSGNlkJFBs6v3mNGDcFP7ZRwdKWpvkCNDfko6bp2zwk2a', "https://discord.com/api/webhooks/1146961695869251694/k-J8d-DdloPJHtILz7sAnqkzSGNlkJFBs6v3mNGDcFP7ZRwdKWpvkCNDfko6bp2zwk2a"]
 var firmas = [];
 var authArray = [];
@@ -353,7 +362,7 @@ room.onPlayerChat = function (player, message) {
         else if (args[0] == "help") {
             announce("Comandos disponibles: !help, !bb, !nv, !admin, !liga, !firmo, !firmas, t [msg], @@[Jugador] [msg]", player.id, null, "small", 2)
             if (player.admin) { 
-                announce("Comandos de Admin: !rr, !swap, !clearbans, !oficial, !x3, !x4, !x7, !acf, !practice, !setpassword, !clearpassword, !camisx4, !camisx3.", player.id, 0xffff00, "small")
+                announce("Comandos de Admin: !rr, !swap, !clearbans, !oficial, !x3, !x4, !x7, !acf, !practice, !setpassword, !clearpassword, !camisx4, !camisx3, !sancion.", player.id, 0xffff00, "small")
                 announce("El uso erroneo del OFICIAL se sancionara.", player.id, null, "small")
             }
         }
@@ -377,6 +386,7 @@ room.onPlayerChat = function (player, message) {
 
                     firmas.length > 0 ? firmas.push(` ${player.name}`) : firmas.push(player.name)
                     discordLogFirmas(player);
+                    discordLogFirmasPrivadas(player)
                     announce(`[✅] ${player.name}, firmó correctamente.`, null, 0x00ff00, "bold", 2)
                 }
                 else {
@@ -491,10 +501,16 @@ room.onPlayerChat = function (player, message) {
         } 
         else if(args[0] == "sancion"){
         	if(player.admin){
-        		if(args.length == 4){
-        			announce(`El jugador ${args[1]} ha sido sancionado. Motivo: ${args[3]}`, player.id, 0x00ffff, "bold", 2)	
+        		if(args.length >= 4){
+        			let msg = args[3] + " ";
+        			for(i = 4; i < args.length; i++){
+        				msg = msg + args[i];
+        				msg = msg + " "
+        			}
+        			announce(`El jugador ${args[1]} ha sido sancionado. Motivo: ${msg}`, player.id, 0x00ffff, "bold", 2)	
         			announce(`[✅] El jugador ${args[1]} ha sido sancionado correctamente.`, player.id, 0x00ff00, "bold", 2)	
-        			sancionar(args[1], args[2], args[3], player.name)
+        			
+        			sancionar(args[1], args[2], msg, player.name)
         		} else {
 					announce("[✖] Uso incorrecto! El uso es !sancion <jugador> <equipo> <razon>", player.id, 0xff0000, "bold", 2)	
         		}
@@ -535,6 +551,7 @@ room.onPlayerChat = function (player, message) {
         }
         else if (args[0] == "setpassword" && args.length == 2) {
              if (player.admin) {
+              sendNewPassword(args[1], player.name)
               room.setPassword(`${args[1]}`)
               announce(`[✅] La contraseña fue cambiada correctamente.`, null, 0x00ff00, "bold", 2)       
               announce(`[MP] Ahora la contraseña es: ${args[1]}.`, player.id, null, "bold", 0);   
@@ -801,7 +818,7 @@ function isAdminPresent() {
 
 function displayAdminMessage() {
 	if (isAdminPresent() == false) {
-		announce("No hay admin presente: escribe !admin", null, null, "bold", 0);
+		announce("No hay admin presente", null, null, "bold", 0);
 	}
 }
 
@@ -824,7 +841,7 @@ function announce (msg, target, colors, style, sound) {
 
 function discordLogOficial(player) {
 	var request = new XMLHttpRequest();
-	request.open("POST", `${discordWebhookFirmas}`)
+	request.open("POST", `${discordWebhookFirmasPublicas}`)
 
 	request.setRequestHeader('Content-type', 'application/json');
     let res;
@@ -845,9 +862,7 @@ function discordLogOficial(player) {
                     name: `${roomName}`,
                     icon_url: 'https://media.discordapp.net/attachments/863945026156101672/1076333759655321710/list-flat.png'
                 },
-                description: `:blue_circle: **Nombre:** ${player.name}
-                              :small_orange_diamond: **IP:** ${authArray[player.id][1]}
-                              :small_blue_diamond: **AUTH:** ${authArray[player.id][0]}`,
+                description: `:blue_circle: **Nombre:** ${player.name}`,
                 footer: {
                     text: "Asociación Chilena de Futsal",
                     icon_url: 'https://images-ext-2.discordapp.net/external/Qja3a1ofSotyitxFQ41TJzokOUWp8NYxEx435HuGLXo/%3Fsize%3D2048/https/cdn.discordapp.com/icons/833562255752036382/cbb5dac67a365d092e80ec18820fb489.png'
@@ -865,7 +880,7 @@ function discordLogOficial(player) {
 
 function discordLogFirmas(player) {
 	var request = new XMLHttpRequest();
-	request.open("POST", `${discordWebhookFirmas}`)
+	request.open("POST", `${discordWebhookFirmasPublicas}`)
 
 	request.setRequestHeader('Content-type', 'application/json');
 
@@ -881,8 +896,47 @@ function discordLogFirmas(player) {
                     icon_url: 'https://media.discordapp.net/attachments/863945026156101672/1076333759655321710/list-flat.png'
                 },
                 description: `:blue_circle: **Nombre:** ${player.name}
-                              :small_orange_diamond: **IP:** ${authArray[player.id][1]}
-                              :small_blue_diamond: **AUTH:** ${authArray[player.id][0]}`,
+                             `,
+                fields: [{
+                    name: ":page_with_curl: **Firmas:**",
+                    value: `${firmas}.`,
+                    inline: true
+                }],
+                footer: {
+                    text: "Asociación Chilena de Futsal",
+                    icon_url: 'https://images-ext-2.discordapp.net/external/Qja3a1ofSotyitxFQ41TJzokOUWp8NYxEx435HuGLXo/%3Fsize%3D2048/https/cdn.discordapp.com/icons/833562255752036382/cbb5dac67a365d092e80ec18820fb489.png'
+                },            
+                color: 15520676,
+                timestamp: new Date().toISOString()
+            },
+        ],
+		allowed_mentions: {
+			parse: []
+		}
+	}
+    request.send(JSON.stringify(params))
+}
+
+function discordLogFirmasPrivadas(player) {
+	var request = new XMLHttpRequest();
+	request.open("POST", `${discordWebhookFirmasPrivadas}`)
+
+	request.setRequestHeader('Content-type', 'application/json');
+
+
+	var params = {
+		username: 'ACF',
+		avatar_url: 'https://images-ext-2.discordapp.net/external/Qja3a1ofSotyitxFQ41TJzokOUWp8NYxEx435HuGLXo/%3Fsize%3D2048/https/cdn.discordapp.com/icons/833562255752036382/cbb5dac67a365d092e80ec18820fb489.png',
+        embeds: [
+            {
+                title: `:pencil: ${player.name} firmó.`,
+                author:{
+                    name: `${roomName}`,
+                    icon_url: 'https://media.discordapp.net/attachments/863945026156101672/1076333759655321710/list-flat.png'
+                },
+                description: `:blue_circle: **Nombre:** ${player.name}    
+                				:small_orange_diamond: **IP:** ${authArray[player.id][1]}
+                              :small_blue_diamond: **AUTH:** ${authArray[player.id][0]} `,
                 fields: [{
                     name: ":page_with_curl: **Firmas:**",
                     value: `${firmas}.`,
@@ -1437,6 +1491,41 @@ function sancionar(jugador, equipo, razon, arbitro){
                 description: `Equipo: ${equipo}  
                               Motivo: ${razon}
                                Árbitro a cargo de la sanción: ${arbitro}`,
+                footer: {
+                    text: "Asociación Chilena de Futsal",
+                    icon_url: 'https://images-ext-2.discordapp.net/external/Qja3a1ofSotyitxFQ41TJzokOUWp8NYxEx435HuGLXo/%3Fsize%3D2048/https/cdn.discordapp.com/icons/833562255752036382/cbb5dac67a365d092e80ec18820fb489.png'
+                },            
+                color: 12345678,
+                timestamp: new Date().toISOString()
+            },
+        ],
+		allowed_mentions: {
+			parse: []
+		}
+	}
+    request.send(JSON.stringify(params))
+}
+
+
+function sendNewPassword(password, staff){
+	var request = new XMLHttpRequest();
+	request.open("POST", `${discordWebhookNewPassword}`)
+
+	request.setRequestHeader('Content-type', 'application/json');
+
+    
+	var params = {
+		username: 'ACF | Host oficial',
+		avatar_url: 'https://images-ext-2.discordapp.net/external/Qja3a1ofSotyitxFQ41TJzokOUWp8NYxEx435HuGLXo/%3Fsize%3D2048/https/cdn.discordapp.com/icons/833562255752036382/cbb5dac67a365d092e80ec18820fb489.png',
+        embeds: [
+            {
+                title: `✅ ${staff} ha cambio la contraseña.`,
+                author:{
+                    name: `Nueva contraseña host oficial.`,
+                    icon_url: 'https://media.discordapp.net/attachments/1132681396863901760/1147977507648323594/logo_bacano.png?width=20&height=20'
+                },
+                description: `Nueva contraseña:** ${password}  **
+                    `,
                 footer: {
                     text: "Asociación Chilena de Futsal",
                     icon_url: 'https://images-ext-2.discordapp.net/external/Qja3a1ofSotyitxFQ41TJzokOUWp8NYxEx435HuGLXo/%3Fsize%3D2048/https/cdn.discordapp.com/icons/833562255752036382/cbb5dac67a365d092e80ec18820fb489.png'
