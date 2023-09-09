@@ -12,7 +12,7 @@ var password = null // password siempre entre "", en caso de no definir password
 var roomPublic = true; // room publico: dejar true, room oculto: dejar false.
 
 var room = HBInit({
-  roomArgs['token'],
+  token: roomArgs['token'],
   roomName: roomName,
   maxPlayers: maxPlayers,
   public: roomPublic,
