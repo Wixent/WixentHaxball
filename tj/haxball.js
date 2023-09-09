@@ -12,12 +12,12 @@ var password = null // password siempre entre "", en caso de no definir password
 var roomPublic = true; // room publico: dejar true, room oculto: dejar false.
 
 var room = HBInit({
-  token: roomArgs['token'],
+  roomArgs['token'],
   roomName: roomName,
   maxPlayers: maxPlayers,
   public: roomPublic,
     roomPassword: password,
-  geo: { "code": "CL", "lat": -33.448907, "lon": -70.66926 }, 
+  geo: { "code": "CL", "lat": -33.448907, "lon": -70.66926 },
   noPlayer: true
 });
 // Setear todo
@@ -84,7 +84,7 @@ room.onPlayerChat = function (player, message) {
                announce("[❌] Has ingresado una contraseña errónea", player.id, 0xff0000, "normal", 2); 
             }
         } else if(args[0] == "help"){
-            announce("Comandos disponibles: !help, !bb, !nv, !liga, !tula.", player.id, null, "small", 2)
+            announce("Comandos disponibles: !help, !bb, !nv, !liga, !tula, !afk, !cambiarequipo.", player.id, null, "small", 2)
             if (player.admin) { 
                 announce("Comandos de Admin: !admin <password>, !p, !x7, !rr.", player.id, 0xffff00, "small")
             }
@@ -133,6 +133,28 @@ room.onPlayerChat = function (player, message) {
             announce("[✅] Se han removido los baneos correctamente.", null, 0x00ff00, "normal", 2);
           } else {
            announce("[❌] No tienes permisos para ingresar este comando.", player.id, 0xff0000, "normal", 2); 
+          }
+        } else if(args[0] == "afk"){
+            if(player.team != 0){
+              room.setPlayerTeam(player.id, 0)
+              announce(`${player.name} ha entrado al modo AFK.`, null, 0xffffff, "normal"); 
+              updateTeams();
+            } else {
+              assignPlayerATeam(player)
+              announce(`${player.name} ha salido del modo AFK.`, null, 0xffffff, "normal"); 
+              updateTeams();
+            }
+        } else if(args[0] == "cambiarequipo"){
+          if(player.team == 1){
+            room.setPlayerTeam(player.id, 2);
+            announce(`Te has cambiado de equipo correctamente.`, player.id, 0xffffff, "normal"); 
+            updateTeams();
+          } else if(player.team == 2){
+            room.setPlayerTeam(player.id, 1);
+            announce(`Te has cambiado de equipo correctamente.`, player.id, 0xffffff, "normal"); 
+            updateTeams();
+          } else {
+            announce(`[❌] No puedes hacer eso mientras estás AFK.`, player.id, 0xff0000, "normal", 2); 
           }
         }
         else {
