@@ -8,9 +8,9 @@ const roomName = "🔺🔷⚽ 3v3 [𝙰𝙲𝙵] ⚽🔷🔺";
 const botName = "Árbitro del Bajo";
 const maxPlayers = 30;
 const roomPublic = true;
-const geo = [{ "code": "CL", "lat": -33.448907, "lon": -70.66926 }];
+const geo = [{"code": "CL", "lat": -33.448907, "lon": -70.66926}];
 
-const room = HBInit({ roomName: roomName, token: roomArgs['token'], maxPlayers: maxPlayers, public: roomPublic, playerName: botName, geo: geo[0] });
+const room = HBInit({ roomName: roomName, maxPlayers: maxPlayers, token: roomArgs['token'], public: roomPublic, playerName: botName, geo: geo[0] });
 
 const scoreLimitClassic = 3;
 const scoreLimitBig = 3;
@@ -684,50 +684,7 @@ function findGK() {
 	GKList = [tab[0][1], tab[1][1]];
 }
 
-setInterval(() => {
-	var tableau = [];
-	if (statNumber % 5 == 0) {
-		Object.keys(localStorage).forEach(function (key) { if (!["player_name", "view_mode", "geo", "avatar", "player_auth_key"].includes(key)) { tableau.push([(JSON.parse(localStorage.getItem(key))[Ss.NK]), (JSON.parse(localStorage.getItem(key))[Ss.GA])]); } });
-		if (tableau.length < 5) {
-			return false;
-		}
-		tableau.sort(function (a, b) { return b[1] - a[1]; });
-		room.sendChat("Partidos Jugados> #1 " + tableau[0][0] + ": " + tableau[0][1] + " #2 " + tableau[1][0] + ": " + tableau[1][1] + " #3 " + tableau[2][0] + ": " + tableau[2][1] + " #4 " + tableau[3][0] + ": " + tableau[3][1] + " #5 " + tableau[4][0] + ": " + tableau[4][1]);
-	}
-	if (statNumber % 5 == 1) {
-		Object.keys(localStorage).forEach(function (key) { if (!["player_name", "view_mode", "geo", "avatar", "player_auth_key"].includes(key)) { tableau.push([(JSON.parse(localStorage.getItem(key))[Ss.NK]), (JSON.parse(localStorage.getItem(key))[Ss.WI])]); } });
-		if (tableau.length < 5) {
-			return false;
-		}
-		tableau.sort(function (a, b) { return b[1] - a[1]; });
-		room.sendChat("Victorias> #1 " + tableau[0][0] + ": " + tableau[0][1] + " #2 " + tableau[1][0] + ": " + tableau[1][1] + " #3 " + tableau[2][0] + ": " + tableau[2][1] + " #4 " + tableau[3][0] + ": " + tableau[3][1] + " #5 " + tableau[4][0] + ": " + tableau[4][1]);
-	}
-	if (statNumber % 5 == 2) {
-		Object.keys(localStorage).forEach(function (key) { if (!["player_name", "view_mode", "geo", "avatar", "player_auth_key"].includes(key)) { tableau.push([(JSON.parse(localStorage.getItem(key))[Ss.NK]), (JSON.parse(localStorage.getItem(key))[Ss.GL])]); } });
-		if (tableau.length < 5) {
-			return false;
-		}
-		tableau.sort(function (a, b) { return b[1] - a[1]; });
-		room.sendChat("Goles> #1 " + tableau[0][0] + ": " + tableau[0][1] + " #2 " + tableau[1][0] + ": " + tableau[1][1] + " #3 " + tableau[2][0] + ": " + tableau[2][1] + " #4 " + tableau[3][0] + ": " + tableau[3][1] + " #5 " + tableau[4][0] + ": " + tableau[4][1]);
-	}
-	if (statNumber % 5 == 3) {
-		Object.keys(localStorage).forEach(function (key) { if (!["player_name", "view_mode", "geo", "avatar", "player_auth_key"].includes(key)) { tableau.push([(JSON.parse(localStorage.getItem(key))[Ss.NK]), (JSON.parse(localStorage.getItem(key))[Ss.AS])]); } });
-		if (tableau.length < 5) {
-			return false;
-		}
-		tableau.sort(function (a, b) { return b[1] - a[1]; });
-		room.sendChat("Asistencias> #1 " + tableau[0][0] + ": " + tableau[0][1] + " #2 " + tableau[1][0] + ": " + tableau[1][1] + " #3 " + tableau[2][0] + ": " + tableau[2][1] + " #4 " + tableau[3][0] + ": " + tableau[3][1] + " #5 " + tableau[4][0] + ": " + tableau[4][1]);
-	}
-	if (statNumber % 5 == 4) {
-		Object.keys(localStorage).forEach(function (key) { if (!["player_name", "view_mode", "geo", "avatar", "player_auth_key"].includes(key)) { tableau.push([(JSON.parse(localStorage.getItem(key))[Ss.NK]), (JSON.parse(localStorage.getItem(key))[Ss.CS])]); } });
-		if (tableau.length < 5) {
-			return false;
-		}
-		tableau.sort(function (a, b) { return b[1] - a[1]; });
-		room.sendChat("CS> #1 " + tableau[0][0] + ": " + tableau[0][1] + " #2 " + tableau[1][0] + ": " + tableau[1][1] + " #3 " + tableau[2][0] + ": " + tableau[2][1] + " #4 " + tableau[3][0] + ": " + tableau[3][1] + " #5 " + tableau[4][0] + ": " + tableau[4][1]);
-	}
-	statNumber++;
-}, statInterval * 60 * 1000);
+
 
 /* EVENTS */
 
@@ -841,62 +798,77 @@ function obtenerRango(victorias) {
     	rango = "Principiante";
     	color = "0x03AC13"; // Verde Claro
     	emoji = "🎈";
+    	break;
     case victorias < 13:
     	rango = "Potencia";
     	color = "0xB0FC38";
     	emoji = "📈";
+    	break;
     case victorias < 17:
     	rango = "Talentoso";
     	color = "0x008B8B";
     	emoji = "💫";
+    	break;
     case victorias < 25:
     	rango = "Crack del Barrio";
     	color = "0x00FEFC";
     	emoji = "✨";
+    	break;
     case victorias < 35:
     	rango = "Pichichi";
     	color = "0xFAE29C";
     	emoji = "🎆";
+    	break;
     case victorias < 50:
     	rango = "Maestro el balón";
     	color = "0xF9E076";
     	emoji= "🎱";
+    	break;
     case victorias < 70:
     	rango = "Dominante de la Esférica";
     	color = "0xA1045A";
     	emoji = "💤";
+    	break;
     case victorias < 100:
     	rango = "El 10";
     	color = "0xA32CC4";
     	emoji = "🎢";
+    	break;
     case victorias < 125:
     	rango = "Crack";
     	color = "0x710193";
     	emoji = "🎪";
+    	break;
     case victorias < 150:
     	rango = "Maestro de la Pichanga";
     	color = "0xB65FCF";
     	emoji = "🎇";
+    	break;
     case victorias < 200:
     	rango = "Relámpago";
     	color = "0xA45EE5"
     	emoji = "⚡";
+    	break;
     case victorias < 250:
     	rango = "Ídolo Mundial";
     	color = "0xDB0F07";
     	emoji = "🚗";
+    	break;
     case victorias < 300:
     	rango = "Astro futbolero";
     	color = "0x187DE9";
     	emoji = "🎆🎆";
+    	break;
     case victorias < 500:
     	rango = "Dios de la Cancha";
     	color = "0xFFD700";
     	emoji = "✨✨✨";
+    	break;
     case victorias < 666:
     	rango = "Demonio Viviente";
     	color = "0xFF0000";
     	emoji = "😈😈😈";
+    	break;
 
 
 }

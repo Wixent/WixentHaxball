@@ -71,7 +71,7 @@
 // https://www.haxball.com/headless
 // =========================================================================
 
-var roomName = "✨ Partidos Oficiales | ACF ✨"; // Nombre de la sala, cambiar siempre entre ""
+var roomName = "💫⚽ 𝙃𝙤𝙨𝙩 𝙋𝙧𝙞𝙫𝙖𝙙𝙤 [𝘼𝘾𝙁] ⚽💫"; // Nombre de la sala, cambiar siempre entre ""
 var maxPlayers = 30; // maximo de jugadores en la sala, dejar 20 por defecto
 var password = "ofi" // password siempre entre "", en caso de no definir password dejar null.
 var roomPublic = true; // room publico: dejar true, room oculto: dejar false.
@@ -79,8 +79,8 @@ var roomPublic = true; // room publico: dejar true, room oculto: dejar false.
 var room = HBInit({
 	roomName: roomName,
 	maxPlayers: maxPlayers,
-	token: roomArgs['token'],
 	public: roomPublic,
+	token: roomArgs['token'],
     roomPassword: password,
 	geo: { "code": "CL", "lat": -33.448907, "lon": -70.66926 },
 	noPlayer: true
@@ -206,8 +206,8 @@ const camisetasTodas = [
 
 var discordWebhookNewPassword = 'https://discord.com/api/webhooks/1148267046757478451/Ibjv0OdTvei8etPA0Q_T2vNXwydLhha0RtFKlui8zoOpA66A2xIB_bb9TOpZzh4lm482'
 var discordWebhookSanciones = 'https://discord.com/api/webhooks/1148052194369736816/sv4Doqe4vHRukeUesPoDRsfgOxdmntw5CNtS48j3BnDzSiTWfZQ0QGsnNORBlfVLmCkn'
-var discordWebhookFirmasPublicas = 'https://discord.com/api/webhooks/1146958562011140226/ksSlsv9BQ6Ge-fQj2U8LZioUytPn-q942kj-DOHNx5XTIhr4YQADr1Kwn9xzW6urY8CC'
-var discordWebhookFirmasPrivadas = 'https://discord.com/api/webhooks/1148260007582912542/qA8myB-SyaR-kswbVw5zYxND83TRilqErrqmbpWVBowkuca1DqabKTaV4qqWEQRz-lug'
+var discordWebhookFirmasPublicas = 'https://discord.com/api/webhooks/1153074474380443748/jJ5uVjH8vEPaOV6QRUM0eTOyGG8M4dEnMl8PwXCWvmUPYeU_0SuS2SHa9UeZOB5xK4Fy'
+var discordWebhookFirmasPrivadas = 'https://discord.com/api/webhooks/1153705162414764073/2Y-mwTtPEKTWBjKvzg3b3G8seTjb3ptFSZpMQ9T-av4FjOEocVVXZjwgNnFZVtxnyN9V'
 var gameWebhook = ['https://discord.com/api/webhooks/1146961695869251694/k-J8d-DdloPJHtILz7sAnqkzSGNlkJFBs6v3mNGDcFP7ZRwdKWpvkCNDfko6bp2zwk2a', 'https://discord.com/api/webhooks/1146961695869251694/k-J8d-DdloPJHtILz7sAnqkzSGNlkJFBs6v3mNGDcFP7ZRwdKWpvkCNDfko6bp2zwk2a', "https://discord.com/api/webhooks/1146961695869251694/k-J8d-DdloPJHtILz7sAnqkzSGNlkJFBs6v3mNGDcFP7ZRwdKWpvkCNDfko6bp2zwk2a"]
 var firmas = [];
 var authArray = [];
