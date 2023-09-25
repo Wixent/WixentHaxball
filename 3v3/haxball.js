@@ -19,7 +19,7 @@ const timeLimitBig = 3;
 
 room.setTeamsLock(true);
 
-var adminPassword = "acfacfacf";
+var adminPassword = "aVuvhl0kTmS94lQA";
 console.log("adminPassword : " + adminPassword);
 
 /* STADIUM */
