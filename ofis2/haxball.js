@@ -71,7 +71,7 @@
 // https://www.haxball.com/headless
 // =========================================================================
 
-var roomName = "💫⚽ Sala 1 [𝘼𝘾𝙁] ⚽💫"; // Nombre de la sala, cambiar siempre entre ""
+var roomName = "💫⚽ Sala 2 [𝘼𝘾𝙁] ⚽💫"; // Nombre de la sala, cambiar siempre entre ""
 var maxPlayers = 30; // maximo de jugadores en la sala, dejar 20 por defecto
 var password = "ofi" // password siempre entre "", en caso de no definir password dejar null.
 var roomPublic = true; // room publico: dejar true, room oculto: dejar false.
@@ -82,7 +82,7 @@ var room = HBInit({
 	public: roomPublic,
     roomPassword: password,
 	geo: { "code": "CL", "lat": -33.448907, "lon": -70.66926 },
-	noPlayer: true,
+	noPlayer: true
 	token: roomArgs['token']
 });
 
@@ -204,11 +204,11 @@ const camisetasTodas = [
     {id: "cc", nombre: "Colo Colo", uniform: [{ angle: 40, mainColor: [0xFFFFFF, 0xEDEDED, 0xFDF7FF], avatarColor: 0x000000 }, { angle: 30, mainColor: [0xF2F2F2, 0xEDEDED, 0xE8E8E8], avatarColor: 0x050326 }, {angle: 60, mainColor: [0x0800FF, 0x0800FF, 0x000000], avatarColor: 0xFFFFFF}]}
  ]
 
-var discordWebhookNewPassword = 'https://discord.com/api/webhooks/1148267046757478451/Ibjv0OdTvei8etPA0Q_T2vNXwydLhha0RtFKlui8zoOpA66A2xIB_bb9TOpZzh4lm482'
+var discordWebhookNewPassword = 'https://discord.com/api/webhooks/1156012989837754418/yrri8ZHBmo2cRiSw_NL7uggDhvFbGGdfoXwVhLr8Pa6LzarTxwXcSXPGedByg_Y3Q_YO'
 var discordWebhookSanciones = 'https://discord.com/api/webhooks/1148052194369736816/sv4Doqe4vHRukeUesPoDRsfgOxdmntw5CNtS48j3BnDzSiTWfZQ0QGsnNORBlfVLmCkn'
 var discordWebhookFirmasPublicas = 'https://discord.com/api/webhooks/1153074474380443748/jJ5uVjH8vEPaOV6QRUM0eTOyGG8M4dEnMl8PwXCWvmUPYeU_0SuS2SHa9UeZOB5xK4Fy'
 var discordWebhookFirmasPrivadas = 'https://discord.com/api/webhooks/1153705162414764073/2Y-mwTtPEKTWBjKvzg3b3G8seTjb3ptFSZpMQ9T-av4FjOEocVVXZjwgNnFZVtxnyN9V'
-var gameWebhook = ['https://discord.com/api/webhooks/1155496002522988585/82wqXRNi_U9QZuI07CfFraBVaLMwXu_u7mtl0NqnjAhO1FZoibjQLmCUFVf8JB_jhjmg']
+var gameWebhook = ['https://discord.com/api/webhooks/1156013613350391878/sBlFmKx80htzOV4ilru-Pkz30gupVmOkbScYucAd1_OWKw-LGuWenGA3GyiAbvgTkmtH']
 var firmas = [];
 var authArray = [];
 var players = [];
