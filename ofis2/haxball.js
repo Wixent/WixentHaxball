@@ -82,7 +82,7 @@ var room = HBInit({
 	public: roomPublic,
     roomPassword: password,
 	geo: { "code": "CL", "lat": -33.448907, "lon": -70.66926 },
-	noPlayer: true
+	noPlayer: true,
 	token: roomArgs['token']
 });
 
