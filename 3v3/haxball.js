@@ -8,9 +8,11 @@ const roomName = "🔺🔷⚽ 3v3 [𝙰𝙲𝙵] ⚽🔷🔺";
 const botName = "Árbitro del Bajo";
 const maxPlayers = 30;
 const roomPublic = true;
-const geo = [{"code": "CL", "lat": -33.448907, "lon": -70.66926}];
+const geo = [{ "code": "CL", "lat": -33.448907, "lon": -70.66926 }
+];
 
-const room = HBInit({ roomName: roomName, maxPlayers: maxPlayers, token: roomArgs['token'], public: roomPublic, playerName: botName, geo: geo[0] });
+const room = HBInit({token: roomArgs['token'], roomName: roomName, maxPlayers: maxPlayers, public: roomPublic, playerName: botName, geo: geo[0] });
+
 
 const scoreLimitClassic = 3;
 const scoreLimitBig = 3;
@@ -19,7 +21,7 @@ const timeLimitBig = 3;
 
 room.setTeamsLock(true);
 
-var adminPassword = "aVuvhl0kTmS94lQA";
+var adminPassword = "acfacfacf";
 console.log("adminPassword : " + adminPassword);
 
 /* STADIUM */
@@ -786,92 +788,92 @@ function obtenerRango(victorias) {
   switch (true) {
     case victorias < 3:
       rango = "Malisimo";
-      color = "0xFF6347"; // Rojo
+      color = 0xFFB6C1; // Rosa claro
       emoji = "🧑🏻";
       break;
     case victorias < 6:
       rango = "Aficionado";
-      color = "0xF7BD56"; // Naranjo claro
+      color = 0xFFFFE0; // Amarillo claro
       emoji = "⚽";
       break;
     case victorias < 10:
     	rango = "Principiante";
-    	color = "0x03AC13"; // Verde Claro
+    	color = 0x98FB98; // Verde claro
     	emoji = "🎈";
     	break;
     case victorias < 13:
     	rango = "Potencia";
-    	color = "0xB0FC38";
+    	color = 0xC1FFC1; // Verde claro menta
     	emoji = "📈";
     	break;
     case victorias < 17:
     	rango = "Talentoso";
-    	color = "0x008B8B";
+    	color = 0xAFEEEE; // Turquesa claro
     	emoji = "💫";
     	break;
     case victorias < 25:
     	rango = "Crack del Barrio";
-    	color = "0x00FEFC";
+    	color = 0xE0FFFF; // Cyan claro
     	emoji = "✨";
     	break;
     case victorias < 35:
     	rango = "Pichichi";
-    	color = "0xFAE29C";
+    	color = 0xFAFAD2; // Amarillo claro pálido
     	emoji = "🎆";
     	break;
     case victorias < 50:
     	rango = "Maestro el balón";
-    	color = "0xF9E076";
+    	color = 0xFFD700; // Oro
     	emoji= "🎱";
     	break;
     case victorias < 70:
     	rango = "Dominante de la Esférica";
-    	color = "0xA1045A";
+    	color = 0xFF69B4; // Rosa intenso
     	emoji = "💤";
     	break;
     case victorias < 100:
     	rango = "El 10";
-    	color = "0xA32CC4";
+    	color = 0x9370DB; // Lavanda
     	emoji = "🎢";
     	break;
     case victorias < 125:
     	rango = "Crack";
-    	color = "0x710193";
+    	color = 0x8A2BE2; // Azul púrpura
     	emoji = "🎪";
     	break;
     case victorias < 150:
     	rango = "Maestro de la Pichanga";
-    	color = "0xB65FCF";
+    	color = 0xDDA0DD; // Ciruela
     	emoji = "🎇";
     	break;
     case victorias < 200:
     	rango = "Relámpago";
-    	color = "0xA45EE5"
+    	color = 0xA45EE5; // Lila
     	emoji = "⚡";
     	break;
     case victorias < 250:
     	rango = "Ídolo Mundial";
-    	color = "0xDB0F07";
+    	color = 0xFF4500; // Rojo intenso
     	emoji = "🚗";
     	break;
     case victorias < 300:
     	rango = "Astro futbolero";
-    	color = "0x187DE9";
+    	color = 0x87CEFA; // Azul cielo claro
     	emoji = "🎆🎆";
     	break;
     case victorias < 500:
     	rango = "Dios de la Cancha";
-    	color = "0xFFD700";
+    	color = 0xFFFF00; // Amarillo brillante
     	emoji = "✨✨✨";
     	break;
     case victorias < 666:
     	rango = "Demonio Viviente";
-    	color = "0xFF0000";
+    	color = 0xFF4500; // Rojo intenso
     	emoji = "😈😈😈";
     	break;
-
-
+    
 }
+	
   return { rango, color, emoji };
 }
 
@@ -940,7 +942,7 @@ room.onPlayerChat = function (player, message) {
 		announce(`[PV] ${player.name} > PJ: ${stats[Ss.GA]}, Victorias: ${stats[Ss.WI]}, Empates: ${stats[Ss.DR]}, Derrotas: ${stats[Ss.LS]}, WR: ${stats[Ss.WR]}%, Goles: ${stats[Ss.GL]}, Asistencias: ${stats[Ss.AS]}, GK: ${stats[Ss.GK]}, CS: ${stats[Ss.CS]}, CS%: ${stats[Ss.CP]}%`, player.id, 0xFFFF00, "normal", 1);
 	}
 	else if (["!discord"].includes(message[0].toLowerCase())) {
-		announce(`Discord de la Asociacion Chilena de Futsal: https://discord.gg/JzCH2BnGHn`, null, 0x00FF00, "normal", 2);	
+		announce(`Discord de la Asociacion Chilena de Futsal: https://discord.gg/JzCH2BnGHn`, player.id, 0x00FF00, "normal", 2);	
 	}
 	else if (["!mostrarrangos"].includes(message[0].toLowerCase())) {
 		announce(`🧑🏻 [Malisimo]: 3 Victorias, ⚽ [Aficionado]: 6 Victorias, 🎈 [Principiante]: 10 Victorias, 📈 [Potencia]: 13 Victorias, 💫 [Talentoso]: 17 Victorias, ✨ [Crack del Barrio]: 25 Victorias, 🎆 [Pichichi]: 35 Victorias, 🎱 [Maestro del Balón]: 50 Victorias, 💤 [Dominante de la Esférica]: 70 Victorias, 🎢 [El 10]: 100 Victorias, 🎪 [Crack]: 125 Victorias, 🎇 [Maestro de la Pichanga]: 150 Victorias, ⚡ [Relámpago]: 200 Victorias, 🚗 [Ídolo Mundial]: 250 Victorias, 🎆🎆 [Astro Futbolero]: 300 Victorias, ✨✨✨ [Dios de la Cancha]: 500 Victorias, 😈😈😈 [Demonio Viviente]: 666 Victorias.`, player.id, 0xFFBF00, "normal", 2);	
@@ -1164,7 +1166,7 @@ room.onPlayerChat = function (player, message) {
 		finalmessage = finalmessage + message[i] + " ";
 	}
 	if(player.admin){
-		announce(`👓 [Admin] ${player.name}: ${finalmessage}`, null, 0xFF00FF, "normal", 1);
+		announce(`👓 [Admin] ${player.name}: ${finalmessage}`, null, 0xFFFFFF, "normal", 1);
 	} else {
 
 		finalmessage = "";

@@ -77,13 +77,13 @@ var password = "ofi" // password siempre entre "", en caso de no definir passwor
 var roomPublic = true; // room publico: dejar true, room oculto: dejar false.
 
 var room = HBInit({
+    token: roomArgs['token'],
 	roomName: roomName,
 	maxPlayers: maxPlayers,
 	public: roomPublic,
     roomPassword: password,
 	geo: { "code": "CL", "lat": -33.448907, "lon": -70.66926 },
-	noPlayer: true,
-	token: roomArgs['token']
+	noPlayer: true
 });
 
 // Estadios
@@ -204,11 +204,11 @@ const camisetasTodas = [
     {id: "cc", nombre: "Colo Colo", uniform: [{ angle: 40, mainColor: [0xFFFFFF, 0xEDEDED, 0xFDF7FF], avatarColor: 0x000000 }, { angle: 30, mainColor: [0xF2F2F2, 0xEDEDED, 0xE8E8E8], avatarColor: 0x050326 }, {angle: 60, mainColor: [0x0800FF, 0x0800FF, 0x000000], avatarColor: 0xFFFFFF}]}
  ]
 
-var discordWebhookNewPassword = 'https://discord.com/api/webhooks/1148267046757478451/Ibjv0OdTvei8etPA0Q_T2vNXwydLhha0RtFKlui8zoOpA66A2xIB_bb9TOpZzh4lm482'
-var discordWebhookSanciones = 'https://discord.com/api/webhooks/1148052194369736816/sv4Doqe4vHRukeUesPoDRsfgOxdmntw5CNtS48j3BnDzSiTWfZQ0QGsnNORBlfVLmCkn'
-var discordWebhookFirmasPublicas = 'https://discord.com/api/webhooks/1153074474380443748/jJ5uVjH8vEPaOV6QRUM0eTOyGG8M4dEnMl8PwXCWvmUPYeU_0SuS2SHa9UeZOB5xK4Fy'
-var discordWebhookFirmasPrivadas = 'https://discord.com/api/webhooks/1153705162414764073/2Y-mwTtPEKTWBjKvzg3b3G8seTjb3ptFSZpMQ9T-av4FjOEocVVXZjwgNnFZVtxnyN9V'
-var gameWebhook = ['https://discord.com/api/webhooks/1155496002522988585/82wqXRNi_U9QZuI07CfFraBVaLMwXu_u7mtl0NqnjAhO1FZoibjQLmCUFVf8JB_jhjmg']
+var discordWebhookNewPassword = 'https://discord.com/api/webhooks/1178669748259672145/-9JDug8hC7QO8H-4Gg6pPA81Yu7WWC4WbTt_K55gaZyEwwQYjokE1dJ9TUxQfCZuGOG7'
+var discordWebhookSanciones = 'https://discord.com/api/webhooks/1178669880438968381/N6Q1AeNQZciSffCRS6gnNVo3quIborQBTrDS3Ua68E5W4QI045uaB52BRKc0Dvnb74qd'
+var discordWebhookFirmasPublicas = 'https://discord.com/api/webhooks/1178670037268185179/hQaqey9vo2GPJxD_j8SJOFSjQuCIAppb2p0vHmgWG3Nwf3t5XIDIBd_wvHV5BBponOz5'
+var discordWebhookFirmasPrivadas = 'https://discord.com/api/webhooks/1178670205136805948/5sokNvZzNaeyAoe7eSWCDMA239IUOEWKHL4oc5kgQbHhzrbW2778tLxNe8o5uxeVZ_L-'
+var gameWebhook = ['https://discord.com/api/webhooks/1178670347558592566/V4mMJso6YnFngPkJuNjeAL9Xe4bJAlRg42NUmHSBZEFda9WPiPtACgDxRQq6oi3i9xU3']
 var firmas = [];
 var authArray = [];
 var players = [];
