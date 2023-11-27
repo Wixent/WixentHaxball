@@ -8,8 +8,9 @@ const roomName = "🌟⠀⠀⠀⠀⭐𝗘𝗟 𝗛𝗢𝗦𝗧 𝗗𝗘 𝗡𝗔
 const maxPlayers = 20;
 const roomPublic = true;
 const geo = [{"code": "ar", "lat": -34.603745496122286, "lon": -58.3815677203902}];  
+const botName = "Navibot⭐";
 
-const room = HBInit({token: roomArgs['token'], roomName: roomName, maxPlayers: maxPlayers, public: roomPublic, noPlayer: true, geo: geo[0] });
+const room = HBInit({token: roomArgs['token'], roomName: roomName, maxPlayers: maxPlayers, public: roomPublic, playerName: botName, geo: geo[0] });
 
 const scoreLimitClassic =3;
 const scoreLimitBig = 3;
